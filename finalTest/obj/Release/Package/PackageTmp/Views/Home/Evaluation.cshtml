@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNet.Identity
+@using finalTest.Models
+
+@{
+    ViewBag.Title = "Evaluation";
+}
+
+<h3>Evaluation</h3>
+
+
+<form action="" method="post">
+    <table>
+        <tr>
+            <td><label for="file_name">File For Evaluation</label></td>
+            <td>
+                <select name="file_name">
+                    @{
+                        if (Directory.Exists(Server.MapPath("~/App_Data/uploads/" + User.Identity.GetUserName())))
+                        { 
+                        string[] txtList = Directory.GetFiles(Server.MapPath("~/App_Data/uploads/" + User.Identity.GetUserName()));
+                        string filename;
+                        //if there are files in the directory
+                        if (txtList.Length != 0)
+                        {
+                            
+                            foreach (string f in txtList)
+                            {
+                                if (!(f.Contains(".Ratings") || f.Contains("TopRated.txt"))) { 
+                                filename = Path.GetFileName(f);
+                                <option value="@filename">@filename</option>
+                                }//end if
+                            } // end for each
+                        }
+                    
+                        }//end if
+                        else {
+                        <option value="">-</option>
+                        }
+                        }
+                </select>
+            </td>
+        <tr />
+    </table>
+    <br />
+    <div style="padding-left: 3em">
+        <input type="submit" value="Evaluate" />
+    </div>
+</form>
+
+<br />
+<br />
+<br />
+
+<p>The following table will display RMSE, MAE and CBD values for all the available recommenders once you choose a file and click on the "Evaluate" button.</p>
+<ul>
+    <li>RMSE: Root Mean Square Error</li>
+    <li>MAE: Mean Average Error</li>
+    <li>CBD: Capped Binomial Deviance</li>
+</ul>
+<p>The closer the values are to 0 the more accurate is the recommender for the particular dataset.</p> 
+
+<h3>Error Table for <b> @ViewData["file"] </b></h3>
+<table class="CSSTableGenerator" style="width:850px">
+    <tr style="font-size:larger"><th>Recommender</th><th>RMSE</th><th>MAE</th><th>CBD</th></tr>
+
+    <tr>
+        <td class="parameter-name"><b> KNN </b></td>
+        <td class="parameter-documentation"> @ViewData["knnRMSE"] </td>
+        <td class="parameter-documentation"> @ViewData["knnMAE"] </td>
+        <td class="parameter-documentation"> @ViewData["knnCBD"] </td>
+    </tr>
+
+    <tr>
+        <td class="parameter-name"><b> CoClustering </b></td>
+        <td class="parameter-documentation"> @ViewData["ccRMSE"] </td>
+        <td class="parameter-documentation"> @ViewData["ccMAE"] </td>
+        <td class="parameter-documentation"> @ViewData["ccCBD"] </td>
+    </tr>
+
+    <tr>
+        <td class="parameter-name"><b> Random </b></td>
+        <td class="parameter-documentation"> @ViewData["raRMSE"] </td>
+        <td class="parameter-documentation"> @ViewData["raMAE"] </td>
+        <td class="parameter-documentation"> @ViewData["raCBD"] </td>
+    </tr>
+
+    <tr>
+        <td class="parameter-name"><b> ItemAverage </b></td>
+        <td class="parameter-documentation"> @ViewData["iaRMSE"] </td>
+        <td class="parameter-documentation"> @ViewData["iaMAE"] </td>
+        <td class="parameter-documentation"> @ViewData["iaCBD"] </td>
+    </tr>
+
+    <tr>
+        <td class="parameter-name"><b> GlobalAverage </b></td>
+        <td class="parameter-documentation"> @ViewData["gaRMSE"] </td>
+        <td class="parameter-documentation"> @ViewData["gaMAE"] </td>
+        <td class="parameter-documentation"> @ViewData["gaCBD"] </td>
+    </tr>
+    
+</table>
+
+
+@{
+    if (!Directory.Exists(Server.MapPath("~/App_Data/uploads/" + User.Identity.GetUserName())))
+    {
+        <p>There are no files for evaluation. You can go back to the "My Files" tab to add more files.</p>
+    }
+}
+
+
+

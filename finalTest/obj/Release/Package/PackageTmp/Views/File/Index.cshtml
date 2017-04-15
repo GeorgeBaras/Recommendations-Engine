@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@{
+    if (User.Identity.GetUserName().IsEmpty())
+    {
+        <h3>No user has logged in yet</h3>
+    }
+    else
+    {
+        <h3>@User.Identity.GetUserName() - Index of uploaded files</h3>
+    }
+}
+<br />
+
+@{
+    if (Directory.Exists(Server.MapPath("~/App_Data/uploads/" + User.Identity.GetUserName())))
+    {
+
+    <div class="CSSTableGenerator" style="width:650px">
+      <table>
+                <tr>
+                    <td>
+                        Your Files
+                    </td>
+                </tr>
+
+      @foreach (var file in Directory.GetFiles(Server.MapPath("~/App_Data/uploads/" + User.Identity.GetUserName())))
+      {
+      
+      string filename = "";
+      filename = Path.GetFileName(file);
+      if(!filename.Contains(".Ratings")){
+        <tr>
+        <td>@filename</td>
+        </tr>
+      }//end if
+      }
+
+      </table>
+    </div>
+
+
+
+    }//end if
+    else
+    {
+        <h2>Directory does not exist</h2>
+    }
+}
+
+
+
+
+<br /><br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="btn btn-default">
+
+        @Html.ActionLink("Add a new file", "Create") | 
+
+        @Html.ActionLink("Delete a file", "Delete")
+
+    </div>
+}
+<br />
+

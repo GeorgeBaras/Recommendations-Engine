@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3>Choose a file from the drop-down list to delete</h3>
+
+<form action="" method="post" >
+    <table>
+        <tr>
+            <td><label for="file_name">File To Delete</label></td>
+            <td>
+                <select name="file_name">
+                    @{
+                        if (Directory.Exists(Server.MapPath("~/App_Data/uploads/" + User.Identity.GetUserName()))) { 
+                        string[] txtList = Directory.GetFiles(Server.MapPath("~/App_Data/uploads/" + User.Identity.GetUserName()));
+                        string filename;
+                        //if there are files in the directory
+                        if (txtList.Length != 0){
+
+                            foreach (string f in txtList)
+                            {
+                                filename = Path.GetFileName(f);
+                                <option value="@filename">@filename</option>
+                            }
+                          }
+                        }
+                        }
+                </select>
+            </td>
+        <tr />
+    </table>
+    <br />
+    <div style="padding-left: 13em">
+        <input type="submit" value="Delete" />
+    </div>
+</form>
+
+
+
+@{
+    if (!Directory.Exists(Server.MapPath("~/App_Data/uploads/" + User.Identity.GetUserName())))
+    {
+    <p>There are no files to delete. You can go back to index to add more files.</p>
+    }    
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="btn btn-default">
+
+        @Html.ActionLink("Back to Index", "Index")
+    </div>
+}

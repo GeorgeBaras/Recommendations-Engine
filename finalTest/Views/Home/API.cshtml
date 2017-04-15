@@ -1,0 +1,108 @@
+﻿
+
+    @{
+        ViewBag.Title = "API";
+    }
+    <h2>@ViewBag.Title.</h2>
+
+<h3 style="color: blue">GET api/Recs/{Username}/{Filename}/{RecommendationsOption}/{UserItemID}/{numberOfRecommendations}</h3>
+<p style="font-family:Verdana">
+    In order to access the available web service, one has to call <br />WEBSITENAME/api/Recs/{Username}/{Filename}/{RecommendationsOption}/{UserItemID}/{numberOfRecommendations}
+</p>
+
+
+    <h3>Parameters</h3>
+    <table class="CSSTableGenerator" style="width:850px">
+            <tr style="font-size:larger"><th>Name</th><th>Description</th><th>Additional information</th></tr>
+        
+            <tr>
+                <td class="parameter-name"><b>Username [string]</b></td>
+                <td class="parameter-documentation">The username used for the website must be provided. Case sensitive.</td>
+                <td class="parameter-source">
+                    <p></p>
+                </td>
+            </tr>
+            
+        <tr>
+            <td class="parameter-name"><b>Filename [string]</b></td>
+            <td class="parameter-documentation">The name of the file from which recommendations are needed must be provided .</td>
+            <td class="parameter-source">
+                 The file must be provided with its corresponding extension (e.g. myfile.csv instead of myfile).
+            </td>
+        </tr>
+
+        <tr>
+            <td class="parameter-name"><b>RecommendationsOption [string]</b></td>
+            <td class="parameter-documentation">
+                <ul>
+                    <li>
+                        The value of "knn_best" must be provided to get recommendations based on a certain user id using the "KNN" recommender
+                    </li>
+                    <li>
+                        The value of "cc_best" must be provided to get recommendations based on a certain user id using the "CoClustering" recommender
+                    </li>
+                    <li>
+                        The value of "ra_best" must be provided to get recommendations based on a certain user id using the "Random" recommender
+                    </li>
+                    <li>
+                        The value of "ga_best" must be provided to get recommendations based on a certain user id using the "GlobalAverage" recommender
+                    </li>
+                    <li>
+                        The value of "ia_best" must be provided to get recommendations based on a certain user id using the "ItemAverage" recommender
+                    </li>
+                    <li>
+                        The value of "knn_similar" must be provided to get  recommendations based on a certain item id using the KNN recommender
+                    </li>
+                    <li>
+                        The value of "top" must be provided to get a list of top rated items based on their average rating
+                    </li>
+                </ul>
+            </td>
+            <td class="parameter-source">
+                <p></p>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="parameter-name"><b>UserItemID [integer]</b></td>
+            <td class="parameter-documentation">Provide the user or item id, based on the choice given for "RecommendationsOption"</td>
+            <td class="parameter-source">
+                The value of "0" must be provided in the case where the top rated items are needed.
+            </td>
+        </tr>
+
+        <tr>
+            <td class="parameter-name"><b>numberOfRecommendations [integer]</b></td>
+            <td class="parameter-documentation">Provide the number of recommendations needed </td>
+            <td class="parameter-source">
+               A maximum of 50 recommendations can be provided in the case of top rated items.
+            </td>
+        </tr>
+
+    </table>
+
+<br /><br />
+    <h2>Response Information</h2>
+    <h3>Response body formats</h3>
+
+    <div>
+        <h4 class="sample-header">application/ comma separated format with a series of product IDs</h4>
+        <div class="sample-content">
+            <span><b>Sample:</b></span>
+        <pre class="wrapped">
+         [1,2,3]
+        </pre>
+        </div>
+        <h4 class="sample-header">application/xml, text/xml</h4>
+        <div class="sample-content">
+            <span><b>Sample:</b></span>
+        <pre class="wrapped">
+        string xmlns=&quot;http://schemas.microsoft.com/2003/10/Serialization/&quot;&gt;sample string 1&lt;/string
+        &lt;ArrayOfint xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2003/10/Serialization/Arrays"&gt;
+          &lt;int&gt;1&lt;/int&gt;
+          &lt;int&gt;2&lt;/int&gt;
+          &lt;int&gt;3&lt;/int&gt;      
+        &lt;/ArrayOfint&gt;
+        </pre>
+        </div>
+    </div>

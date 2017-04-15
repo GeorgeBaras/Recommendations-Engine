@@ -1,0 +1,91 @@
+﻿
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add a new file</h2>
+
+<h5>It could take several minutes to upload large datasets. Please do not leave the page. You will be redirected to the index once the upload is completed.</h5>
+
+
+<h5 style=" font-family:Verdana">Currenty the application supports files with any kind of extension(.txt, .csv, .base etc) as long as <br /> 
+    they follow "User-Item-Rating" or "User-Item-Rating-Date of Rating" formats.<br />Also the default output for the web service is comma separated. </h5>
+
+<script>
+    function validateForm() {
+        var x = document.forms["myForm"]["file_name"].value;
+        if (x == null || x == "") {
+            alert("Name must be filled out. Please fill out a valid name.");
+            return false;
+        }
+        if (document.forms["myForm"]["file"].value == "") {
+            alert("No file has been selected. Please select a valid file.");
+            return false;
+        }
+    }
+
+</script>
+
+<form name="myForm" action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <table>
+        <tr style="padding-bottom: 5em;">
+            <td><label for="file_name">Filename</label></td>
+            <td><input type="text" name="file_name" id="name" style="width:220px" /></td>
+        <tr />
+
+        <tr style="padding-bottom: 5em;">
+            <td><label for="type">File Type</label></td>
+            <td><select name="file_type" style="width:220px">
+                    <option value="uir">User-Item-Rating</option>
+                    <option value="uir">Item-User-Rating</option>
+                    <option value="uir">Item-User-Rating-Date of Rating</option>    
+                    <option value="uird">User-Item-Rating-Date of Rating</option>
+                </select>
+            </td>
+            <tr />
+
+        <tr style="padding-bottom: 5em;">
+            <td><label for="format">File Format</label></td>
+            <td>
+                <select name="file_format" style="width:220px">
+                    <option value="uir">.txt</option>
+                    <option value="uir">.csv</option>
+                    <option value="uir">.base</option>
+                </select>
+            </td>
+        <tr />
+
+        <tr style="padding-bottom: 5em;">
+            <td><label for="output">WS response format</label></td>
+            <td>
+                <select name="response" style="width:220px">
+                    <option value="json">comma separated</option>
+                    <option value="json">JSON</option>
+                    <option value="xml">XML</option>
+                </select>
+            </td>
+        <tr />
+
+        <tr style="padding-bottom: 5em;">
+            <td> </td>
+            <td><input type="file" name="file" id="file" /></td>
+        <tr />
+    </table>
+    <br />
+        <div style="padding-left: 13em">
+            <input type="submit" value="Add" />
+        </div>
+</form>
+<br />
+<br />
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="btn btn-default">
+        @Html.ActionLink("Cancel and Return to Index", "Index")
+    </div>
+}
